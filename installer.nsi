@@ -63,18 +63,24 @@ Var LegacyDir
 !insertmacro MUI_LANGUAGE "French"
 !insertmacro MUI_LANGUAGE "Dutch"
 !insertmacro MUI_LANGUAGE "German"
+!insertmacro MUI_LANGUAGE "Ukrainian"
+!insertmacro MUI_LANGUAGE "Spanish"
 
 LangString RUNTEXT ${LANG_ENGLISH} "Launch AutoDarkModeX"
 LangString RUNTEXT ${LANG_RUSSIAN} "Запустить AutoDarkModeX"
 LangString RUNTEXT ${LANG_FRENCH}  "Lancer AutoDarkModeX"
 LangString RUNTEXT ${LANG_DUTCH}   "AutoDarkModeX starten"
 LangString RUNTEXT ${LANG_GERMAN}  "AutoDarkModeX starten"
+LangString RUNTEXT ${LANG_UKRAINIAN} "Запустити AutoDarkModeX"
+LangString RUNTEXT ${LANG_SPANISH} "Iniciar AutoDarkModeX"
 
 LangString STARTUPTEXT ${LANG_ENGLISH} "Start with Windows"
 LangString STARTUPTEXT ${LANG_RUSSIAN} "Запускать вместе с Windows"
 LangString STARTUPTEXT ${LANG_FRENCH}  "Démarrer avec Windows"
 LangString STARTUPTEXT ${LANG_DUTCH}   "Starten met Windows"
 LangString STARTUPTEXT ${LANG_GERMAN}  "Mit Windows starten"
+LangString STARTUPTEXT ${LANG_UKRAINIAN} "Запускати разом із Windows"
+LangString STARTUPTEXT ${LANG_SPANISH} "Iniciar con Windows"
 
 Function .onInit
   ; earlier AutoDarkModeX install: offer the same folder again

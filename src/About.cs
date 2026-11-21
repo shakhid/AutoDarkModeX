@@ -30,7 +30,7 @@ namespace AutoDarkMode
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false; MinimizeBox = false; ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            ClientSize = new Size(P(340), P(176));
+            ClientSize = new Size(P(340), P(222));
             BackColor = Pal.Bg;
             Font = new Font("Segoe UI", 9f);
             DoubleBuffered = true;
@@ -48,12 +48,80 @@ namespace AutoDarkMode
             desc.Wrap = true;
             Controls.Add(desc);
 
-            Controls.Add(Left(20, 134, 200, 26, "© 2026 Shax", 9f, false, true));
+            // update check: button + status
+            btnUpd = new Btn { Font = new Font("Segoe UI", 9f), Text = L.T("check_updates") };
+            btnUpd.SetBounds(P(20), P(130), P(164), P(32));
+            btnUpd.Click += delegate { UpdateClick(); };
+            Controls.Add(btnUpd);
+            lblUpd = Left(192, 130, 128, 32, "", 8.5f, false, true);
+            lblUpd.Wrap = false;
+            Controls.Add(lblUpd);
+
+            Controls.Add(Left(20, 180, 200, 26, "© 2026 Shax", 9f, false, true));
             var ok = new Btn { Primary = true, Font = new Font("Segoe UI Semibold", 9f), Text = L.T("close") };
-            ok.SetBounds(P(220), P(130), P(100), P(32));
+            ok.SetBounds(P(220), P(176), P(100), P(32));
             ok.Click += delegate { Close(); };
             Controls.Add(ok);
             KeyDown += delegate (object s, KeyEventArgs e) { if (e.KeyCode == Keys.Escape || e.KeyCode == Keys.Enter) Close(); };
+        }
+
+        Btn btnUpd;
+        Lbl lblUpd;
+        Updater.Release found;
+        bool busy;
+
+        void UpdateClick()
+        {
+            if (busy) return;
+            if (found != null && found.Installer.Length > 0) { Install(); return; }
+            if (found != null) { OpenPage(found.Page); return; }
+            busy = true; btnUpd.Enabled = false; lblUpd.Text = L.T("checking");
+            System.Threading.ThreadPool.QueueUserWorkItem(delegate
+            {
+                Updater.Release r = null; bool fail = false;
+                try { r = Updater.Latest(); } catch { fail = true; }
+                OnUi(delegate
+                {
+                    busy = false; btnUpd.Enabled = true;
+                    if (fail || r == null || r.Ver == new Version(0, 0, 0, 0)) { lblUpd.Text = L.T("update_fail"); return; }
+                    if (r.Ver <= Updater.Current) { lblUpd.Text = L.T("up_to_date"); return; }
+                    found = r;
+                    lblUpd.Text = string.Format(L.T("update_avail"), r.Tag.TrimStart('v', 'V'));
+                    btnUpd.Primary = true;
+                    btnUpd.Text = L.T("update_now");
+                    btnUpd.Invalidate();
+                });
+            });
+        }
+
+        // download the installer from the release and start it; it closes the running program itself
+        void Install()
+        {
+            busy = true; btnUpd.Enabled = false; lblUpd.Text = L.T("downloading");
+            var r = found;
+            System.Threading.ThreadPool.QueueUserWorkItem(delegate
+            {
+                string file = null;
+                try { file = Updater.Download(r); } catch { }
+                OnUi(delegate
+                {
+                    busy = false; btnUpd.Enabled = true;
+                    if (file == null) { lblUpd.Text = L.T("update_fail"); OpenPage(r.Page); return; }
+                    try { System.Diagnostics.Process.Start(file); Close(); }
+                    catch { lblUpd.Text = L.T("update_fail"); }
+                });
+            });
+        }
+
+        static void OpenPage(string url)
+        {
+            if (string.IsNullOrEmpty(url) || !url.StartsWith("https://github.com/")) url = "https://github.com/" + Updater.Repo + "/releases";
+            try { System.Diagnostics.Process.Start(url); } catch { }
+        }
+
+        void OnUi(Action a)
+        {
+            try { if (IsHandleCreated && !IsDisposed) BeginInvoke(a); } catch { }
         }
 
         Lbl Left(double x, double y, double w, double h, string text, float size, bool bold, bool sub)

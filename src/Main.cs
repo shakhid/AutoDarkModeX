@@ -35,7 +35,7 @@ namespace AutoDarkMode
         readonly object evalLock = new object();
         ContextMenuStrip trayMenu, langMenu;
         ToolStripMenuItem miOpen, miLight, miAuto, miDark, miExit;
-        ToolStripMenuItem[] miLang = new ToolStripMenuItem[5];
+        ToolStripMenuItem[] miLang = new ToolStripMenuItem[L.Codes.Length];
         CapBtn btnMin, btnClose;
         Card statusCard, schedCard, optCard;
         ThemeIcon icon;
@@ -312,7 +312,7 @@ namespace AutoDarkMode
             // language menu
             langMenu = new ContextMenuStrip { ShowImageMargin = false, ShowCheckMargin = true };
             langMenu.Font = Fnt(9.5f, false);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < L.Codes.Length; i++)
             {
                 int idx = i;
                 miLang[i] = new ToolStripMenuItem(L.Names[i]);
@@ -368,7 +368,7 @@ namespace AutoDarkMode
         {
             Text = L.T("title");
             btnLang.Text = L.Codes[S.Lang];
-            for (int i = 0; i < 5; i++) miLang[i].Checked = i == S.Lang;
+            for (int i = 0; i < L.Codes.Length; i++) miLang[i].Checked = i == S.Lang;
             theme.Items = new[] { L.T("light"), L.T("auto"), L.T("dark") };
             theme.Invalidate();
             sched.Items = new[] { L.T("mode_sun"), L.T("mode_time") };
@@ -1014,7 +1014,7 @@ namespace AutoDarkMode
             if (q.Length < 2 || searching) return;
             searching = true; btnFind.Enabled = false;
             list.Items.Clear(); list.Selected = -1; list.Message = L.T("searching"); list.Invalidate();
-            string lang = L.Codes[L.Lang].ToLowerInvariant();
+            string lang = L.Iso[L.Lang];
             ThreadPool.QueueUserWorkItem(delegate
             {
                 List<Place> found = null; bool failed = false;
