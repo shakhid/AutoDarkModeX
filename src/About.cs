@@ -67,6 +67,7 @@ namespace AutoDarkMode
 
         Btn btnUpd;
         Lbl lblUpd;
+        ToolTip tips = new ToolTip();
         Updater.Release found;
         bool busy;
 
@@ -79,11 +80,12 @@ namespace AutoDarkMode
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
                 Updater.Release r = null; bool fail = false;
-                try { r = Updater.Latest(); } catch { fail = true; }
+                try { r = Updater.Latest(); } catch (Exception ex) { fail = true; if (Updater.LastError.Length == 0) Updater.LastError = ex.Message; }
                 OnUi(delegate
                 {
                     busy = false; btnUpd.Enabled = true;
-                    if (fail || r == null || r.Ver == new Version(0, 0, 0, 0)) { lblUpd.Text = L.T("update_fail"); return; }
+                    if (fail || r == null || r.Ver == new Version(0, 0, 0, 0)) { lblUpd.Text = L.T("update_fail"); tips.SetToolTip(lblUpd, Updater.LastError); return; }
+                    tips.SetToolTip(lblUpd, "");
                     if (r.Ver <= Updater.Current) { lblUpd.Text = L.T("up_to_date"); return; }
                     found = r;
                     lblUpd.Text = string.Format(L.T("update_avail"), r.Tag.TrimStart('v', 'V'));
@@ -102,11 +104,12 @@ namespace AutoDarkMode
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
                 string file = null;
-                try { file = Updater.Download(r); } catch { }
+                string err = "";
+                try { file = Updater.Download(r); } catch (Exception ex) { err = ex.Message; }
                 OnUi(delegate
                 {
                     busy = false; btnUpd.Enabled = true;
-                    if (file == null) { lblUpd.Text = L.T("update_fail"); OpenPage(r.Page); return; }
+                    if (file == null) { lblUpd.Text = L.T("update_fail"); tips.SetToolTip(lblUpd, err); OpenPage(r.Page); return; }
                     try { System.Diagnostics.Process.Start(file); Close(); }
                     catch { lblUpd.Text = L.T("update_fail"); }
                 });

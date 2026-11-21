@@ -267,16 +267,64 @@ namespace AutoDarkMode
         public static Version Current { get { return Parse(AppVersion.Text); } }
 
         // throws on network / API errors
+        // Error text of the last failed check, shown as a tooltip in the About window
+        public static string LastError = "";
+
+        // 1) github.com/<repo>/releases/latest redirects to .../releases/tag/<tag>: no API, no rate limit.
+        // 2) if that fails, the REST API. Throws when both fail.
         public static Release Latest()
         {
             try { ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072; } catch { }
-            using (var wc = new TimedWebClient())
+            LastError = "";
+            try { return FromRedirect(); }
+            catch (Exception ex) { LastError = "github.com: " + Describe(ex); }
+            try
             {
-                wc.Encoding = Encoding.UTF8;
-                wc.Headers["User-Agent"] = "AutoDarkModeX/" + AppVersion.Text;
-                wc.Headers["Accept"] = "application/vnd.github+json";
-                return ParseRelease(wc.DownloadString("https://api.github.com/repos/" + Repo + "/releases/latest"));
+                using (var wc = new TimedWebClient(15000))
+                {
+                    wc.Encoding = Encoding.UTF8;
+                    wc.Headers["User-Agent"] = "AutoDarkModeX/" + AppVersion.Text;
+                    wc.Headers["Accept"] = "application/vnd.github+json";
+                    return ParseRelease(wc.DownloadString("https://api.github.com/repos/" + Repo + "/releases/latest"));
+                }
             }
+            catch (Exception ex) { LastError += "\napi.github.com: " + Describe(ex); throw; }
+        }
+
+        static Release FromRedirect()
+        {
+            var rq = (HttpWebRequest)WebRequest.Create("https://github.com/" + Repo + "/releases/latest");
+            rq.AllowAutoRedirect = false;
+            rq.Method = "HEAD";
+            rq.Timeout = 15000;
+            rq.UserAgent = "AutoDarkModeX/" + AppVersion.Text;
+            string loc;
+            using (var rs = (HttpWebResponse)rq.GetResponse())
+                loc = rs.Headers["Location"] ?? "";
+            return FromTagUrl(loc);
+        }
+
+        // https://github.com/<repo>/releases/tag/v1.2.0 -> release v1.2.0 with its expected installer name
+        public static Release FromTagUrl(string loc)
+        {
+            string marker = "/releases/tag/";
+            int i = loc.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+            if (i < 0) throw new Exception("no release (" + (loc.Length > 0 ? loc : "no redirect") + ")");
+            string tag = Uri.UnescapeDataString(loc.Substring(i + marker.Length)).Trim('/');
+            var r = new Release { Tag = tag, Ver = Parse(tag), Page = "https://github.com/" + Repo + "/releases/tag/" + tag };
+            if (r.Ver == new Version(0, 0, 0, 0)) throw new Exception("bad tag " + tag);
+            string ver = tag.TrimStart('v', 'V');
+            r.FileName = "AutoDarkModeX-Setup-" + ver + ".exe";
+            r.Installer = "https://github.com/" + Repo + "/releases/download/" + Uri.EscapeDataString(tag) + "/" + r.FileName;
+            return r;
+        }
+
+        static string Describe(Exception ex)
+        {
+            var we = ex as WebException;
+            var hr = we != null ? we.Response as HttpWebResponse : null;
+            if (hr != null) return "HTTP " + (int)hr.StatusCode + " " + hr.StatusDescription;
+            return ex.GetType().Name + ": " + ex.Message;
         }
 
         public static Release ParseRelease(string json)
