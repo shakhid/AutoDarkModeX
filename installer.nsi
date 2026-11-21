@@ -65,6 +65,10 @@ Var LegacyDir
 !insertmacro MUI_LANGUAGE "German"
 !insertmacro MUI_LANGUAGE "Ukrainian"
 !insertmacro MUI_LANGUAGE "Spanish"
+!insertmacro MUI_LANGUAGE "Italian"
+!insertmacro MUI_LANGUAGE "PortugueseBR"
+!insertmacro MUI_LANGUAGE "Polish"
+!insertmacro MUI_LANGUAGE "Turkish"
 
 LangString RUNTEXT ${LANG_ENGLISH} "Launch AutoDarkModeX"
 LangString RUNTEXT ${LANG_RUSSIAN} "Запустить AutoDarkModeX"
@@ -73,6 +77,10 @@ LangString RUNTEXT ${LANG_DUTCH}   "AutoDarkModeX starten"
 LangString RUNTEXT ${LANG_GERMAN}  "AutoDarkModeX starten"
 LangString RUNTEXT ${LANG_UKRAINIAN} "Запустити AutoDarkModeX"
 LangString RUNTEXT ${LANG_SPANISH} "Iniciar AutoDarkModeX"
+LangString RUNTEXT ${LANG_ITALIAN} "Avvia AutoDarkModeX"
+LangString RUNTEXT ${LANG_PORTUGUESEBR} "Iniciar o AutoDarkModeX"
+LangString RUNTEXT ${LANG_POLISH} "Uruchom AutoDarkModeX"
+LangString RUNTEXT ${LANG_TURKISH} "AutoDarkModeX'i başlat"
 
 LangString STARTUPTEXT ${LANG_ENGLISH} "Start with Windows"
 LangString STARTUPTEXT ${LANG_RUSSIAN} "Запускать вместе с Windows"
@@ -81,6 +89,10 @@ LangString STARTUPTEXT ${LANG_DUTCH}   "Starten met Windows"
 LangString STARTUPTEXT ${LANG_GERMAN}  "Mit Windows starten"
 LangString STARTUPTEXT ${LANG_UKRAINIAN} "Запускати разом із Windows"
 LangString STARTUPTEXT ${LANG_SPANISH} "Iniciar con Windows"
+LangString STARTUPTEXT ${LANG_ITALIAN} "Avvia con Windows"
+LangString STARTUPTEXT ${LANG_PORTUGUESEBR} "Iniciar com o Windows"
+LangString STARTUPTEXT ${LANG_POLISH} "Uruchamiaj z systemem Windows"
+LangString STARTUPTEXT ${LANG_TURKISH} "Windows ile başlat"
 
 Function .onInit
   ; earlier AutoDarkModeX install: offer the same folder again

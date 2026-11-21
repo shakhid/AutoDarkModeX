@@ -19,7 +19,7 @@ Automatically switches Windows between light and dark theme — by sunrise and s
 - **Runs in the background:** starts with Windows, optional tray icon. The theme also switches while the window is hidden, after waking from sleep and after unlocking; if the taskbar gets stuck in the old theme, the app makes it repaint.
 - **Windows 11 look:** rounded corners, Mica background, your Windows accent colour, smooth minimize.
 - **Update check:** About → Check for updates looks for a newer release here on GitHub and can download and install it.
-- **Languages:** English, Русский, Українська, Español, Français, Nederlands, Deutsch.
+- **Languages:** English, Русский, Українська, Español, Français, Nederlands, Deutsch, Italiano, Português, Polski, Türkçe.
 
 ## Installation
 
@@ -70,7 +70,7 @@ This produces `AutoDarkModeX.exe` and the installer `AutoDarkModeX-Setup-<versio
 - **Работает в фоне:** запуск вместе с Windows, значок в трее по желанию. Тема переключается и при скрытом окне, после выхода из сна и после разблокировки; если панель задач «застряла» в старой теме, программа её перерисовывает.
 - **Интерфейс в стиле Windows 11:** скруглённые углы, фон Mica, цвет акцента Windows, плавное сворачивание.
 - **Проверка обновлений:** «О программе» → «Проверить обновления» ищет новый релиз здесь, на GitHub, и может сам скачать и установить его.
-- **Языки:** English, Русский, Українська, Español, Français, Nederlands, Deutsch.
+- **Языки:** English, Русский, Українська, Español, Français, Nederlands, Deutsch, Italiano, Português, Polski, Türkçe.
 
 ## Установка
 

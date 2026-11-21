@@ -54,73 +54,73 @@ namespace AutoDarkMode
     static class L
     {
         public static int Lang;
-        public static readonly string[] Codes = { "EN", "RU", "FR", "NL", "DE", "UA", "ES" };
-        public static readonly string[] Iso = { "en", "ru", "fr", "nl", "de", "uk", "es" };   // for web services
-        public static readonly string[] Names = { "English", "Русский", "Français", "Nederlands", "Deutsch", "Українська", "Español" };
+        public static readonly string[] Codes = { "EN", "RU", "FR", "NL", "DE", "UA", "ES", "IT", "PT", "PL", "TR" };
+        public static readonly string[] Iso = { "en", "ru", "fr", "nl", "de", "uk", "es", "it", "pt", "pl", "tr" };   // for web services
+        public static readonly string[] Names = { "English", "Русский", "Français", "Nederlands", "Deutsch", "Українська", "Español", "Italiano", "Português", "Polski", "Türkçe" };
         static Dictionary<string, string[]> D = new Dictionary<string, string[]>();
         static void A(string k, params string[] v) { D[k] = v; }
 
         static L()
         {
-            // order: EN, RU, FR, NL, DE, UK (Ukrainian), ES (Spanish)
-            A("title", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX");
-            A("light", "Light", "Светлая", "Clair", "Licht", "Hell", "Світла", "Claro");
-            A("dark", "Dark", "Тёмная", "Sombre", "Donker", "Dunkel", "Темна", "Oscuro");
-            A("auto", "Auto", "Авто", "Auto", "Auto", "Auto", "Авто", "Auto");
-            A("next", "{0} at {1} · in {2}", "{0} в {1} · через {2}", "{0} à {1} · dans {2}", "{0} om {1} · over {2}", "{0} um {1} · in {2}", "{0} о {1} · через {2}", "{0} a las {1} · en {2}");
-            A("hm", "{0} h {1} min", "{0} ч {1} мин", "{0} h {1} min", "{0} u {1} min", "{0} Std. {1} Min.", "{0} год {1} хв", "{0} h {1} min");
-            A("m", "{0} min", "{0} мин", "{0} min", "{0} min", "{0} Min.", "{0} хв", "{0} min");
-            A("auto_off", "Automatic switching is off", "Автопереключение выключено", "Changement automatique désactivé", "Automatisch wisselen staat uit", "Automatischer Wechsel ist aus", "Автоперемикання вимкнено", "Cambio automático desactivado");
-            A("polar_day", "Polar day: light theme all day", "Полярный день: светлая тема весь день", "Jour polaire : thème clair toute la journée", "Poolse dag: de hele dag licht thema", "Polartag: ganztägig helles Design", "Полярний день: світла тема весь день", "Día polar: tema claro todo el día");
-            A("polar_night", "Polar night: dark theme all day", "Полярная ночь: тёмная тема весь день", "Nuit polaire : thème sombre toute la journée", "Poolnacht: de hele dag donker thema", "Polarnacht: ganztägig dunkles Design", "Полярна ніч: темна тема весь день", "Noche polar: tema oscuro todo el día");
-            A("schedule", "Schedule", "Расписание", "Planification", "Schema", "Zeitplan", "Розклад", "Horario");
-            A("mode_sun", "By location", "По геолокации", "Par position", "Op locatie", "Nach Standort", "За геолокацією", "Por ubicación");
-            A("mode_time", "Time", "Время", "Heure", "Tijd", "Uhrzeit", "Час", "Hora");
-            A("my_location", "My location", "Моё местоположение", "Ma position", "Mijn locatie", "Mein Standort", "Моє місцезнаходження", "Mi ubicación");
-            A("geo_title", "Location", "Местоположение", "Position", "Locatie", "Standort", "Місцезнаходження", "Ubicación");
+            // order: EN, RU, FR, NL, DE, UK (Ukrainian), ES (Spanish), IT, PT (Brazilian), PL, TR
+            A("title", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX", "AutoDarkModeX");
+            A("light", "Light", "Светлая", "Clair", "Licht", "Hell", "Світла", "Claro", "Chiaro", "Claro", "Jasny", "Açık");
+            A("dark", "Dark", "Тёмная", "Sombre", "Donker", "Dunkel", "Темна", "Oscuro", "Scuro", "Escuro", "Ciemny", "Koyu");
+            A("auto", "Auto", "Авто", "Auto", "Auto", "Auto", "Авто", "Auto", "Auto", "Auto", "Auto", "Otomatik");
+            A("next", "{0} at {1} · in {2}", "{0} в {1} · через {2}", "{0} à {1} · dans {2}", "{0} om {1} · over {2}", "{0} um {1} · in {2}", "{0} о {1} · через {2}", "{0} a las {1} · en {2}", "{0} alle {1} · tra {2}", "{0} às {1} · em {2}", "{0} o {1} · za {2}", "{0}: {1} · {2} sonra");
+            A("hm", "{0} h {1} min", "{0} ч {1} мин", "{0} h {1} min", "{0} u {1} min", "{0} Std. {1} Min.", "{0} год {1} хв", "{0} h {1} min", "{0} h {1} min", "{0} h {1} min", "{0} godz. {1} min", "{0} sa {1} dk");
+            A("m", "{0} min", "{0} мин", "{0} min", "{0} min", "{0} Min.", "{0} хв", "{0} min", "{0} min", "{0} min", "{0} min", "{0} dk");
+            A("auto_off", "Automatic switching is off", "Автопереключение выключено", "Changement automatique désactivé", "Automatisch wisselen staat uit", "Automatischer Wechsel ist aus", "Автоперемикання вимкнено", "Cambio automático desactivado", "Cambio automatico disattivato", "Troca automática desativada", "Automatyczne przełączanie wyłączone", "Otomatik geçiş kapalı");
+            A("polar_day", "Polar day: light theme all day", "Полярный день: светлая тема весь день", "Jour polaire : thème clair toute la journée", "Poolse dag: de hele dag licht thema", "Polartag: ganztägig helles Design", "Полярний день: світла тема весь день", "Día polar: tema claro todo el día", "Giorno polare: tema chiaro tutto il giorno", "Dia polar: tema claro o dia todo", "Dzień polarny: jasny motyw przez cały dzień", "Kutup gündüzü: gün boyu açık tema");
+            A("polar_night", "Polar night: dark theme all day", "Полярная ночь: тёмная тема весь день", "Nuit polaire : thème sombre toute la journée", "Poolnacht: de hele dag donker thema", "Polarnacht: ganztägig dunkles Design", "Полярна ніч: темна тема весь день", "Noche polar: tema oscuro todo el día", "Notte polare: tema scuro tutto il giorno", "Noite polar: tema escuro o dia todo", "Noc polarna: ciemny motyw przez cały dzień", "Kutup gecesi: gün boyu koyu tema");
+            A("schedule", "Schedule", "Расписание", "Planification", "Schema", "Zeitplan", "Розклад", "Horario", "Programmazione", "Agenda", "Harmonogram", "Zamanlama");
+            A("mode_sun", "By location", "По геолокации", "Par position", "Op locatie", "Nach Standort", "За геолокацією", "Por ubicación", "Per posizione", "Por localização", "Wg lokalizacji", "Konuma göre");
+            A("mode_time", "Time", "Время", "Heure", "Tijd", "Uhrzeit", "Час", "Hora", "Orario", "Horário", "Godzina", "Saat");
+            A("my_location", "My location", "Моё местоположение", "Ma position", "Mijn locatie", "Mein Standort", "Моє місцезнаходження", "Mi ubicación", "La mia posizione", "Minha localização", "Moja lokalizacja", "Konumum");
+            A("geo_title", "Location", "Местоположение", "Position", "Locatie", "Standort", "Місцезнаходження", "Ubicación", "Posizione", "Localização", "Lokalizacja", "Konum");
             A("geo_off", "Windows location service is off or unavailable.\n\nTurn it on in Windows settings (Privacy & security → Location), or find your city by name.",
                          "Служба определения местоположения Windows выключена или недоступна.\n\nВключите её в настройках Windows (Конфиденциальность и защита → Расположение) или найдите город по названию.",
                          "Le service de localisation de Windows est désactivé ou indisponible.\n\nActivez-le dans les paramètres Windows (Confidentialité et sécurité → Localisation) ou cherchez votre ville par son nom.",
                          "De locatievoorziening van Windows staat uit of is niet beschikbaar.\n\nZet deze aan in de Windows-instellingen (Privacy en beveiliging → Locatie) of zoek je stad op naam.",
-                         "Der Windows-Standortdienst ist aus oder nicht verfügbar.\n\nAktivieren Sie ihn in den Windows-Einstellungen (Datenschutz und Sicherheit → Standort) oder suchen Sie Ihre Stadt nach Namen.", "Служба визначення місцезнаходження Windows вимкнена або недоступна.\n\nУвімкніть її в налаштуваннях Windows (Конфіденційність і захист → Розташування) або знайдіть місто за назвою.", "El servicio de ubicación de Windows está desactivado o no está disponible.\n\nActívelo en la configuración de Windows (Privacidad y seguridad → Ubicación) o busque su ciudad por nombre.");
-            A("find_city", "Find city", "Найти город", "Chercher la ville", "Stad zoeken", "Stadt suchen", "Знайти місто", "Buscar ciudad");
-            A("geo_settings", "Location settings", "Настройки Windows", "Paramètres", "Instellingen", "Einstellungen", "Налаштування Windows", "Configuración");
-            A("city", "City", "Город", "Ville", "Stad", "Stadt", "Місто", "Ciudad");
-            A("find", "Search", "Найти", "Chercher", "Zoeken", "Suchen", "Знайти", "Buscar");
-            A("searching", "Searching…", "Ищем…", "Recherche…", "Zoeken…", "Suche…", "Шукаємо…", "Buscando…");
-            A("not_found", "Nothing found", "Ничего не найдено", "Aucun résultat", "Niets gevonden", "Nichts gefunden", "Нічого не знайдено", "No se encontró nada");
-            A("search_fail", "Search service is not reachable", "Сервис поиска недоступен", "Service de recherche injoignable", "Zoekdienst niet bereikbaar", "Suchdienst nicht erreichbar", "Сервіс пошуку недоступний", "El servicio de búsqueda no responde");
-            A("search_hint", "Type a city and press Enter", "Введите город и нажмите Enter", "Saisissez une ville puis Entrée", "Typ een stad en druk op Enter", "Stadt eingeben und Enter drücken", "Введіть місто й натисніть Enter", "Escriba una ciudad y pulse Enter");
-            A("or_coords", "or enter coordinates", "или введите координаты", "ou saisissez des coordonnées", "of voer coördinaten in", "oder Koordinaten eingeben", "або введіть координати", "o introduzca coordenadas");
-            A("custom_loc", "Custom location", "Свои координаты", "Position personnalisée", "Eigen locatie", "Eigener Standort", "Власні координати", "Ubicación personalizada");
-            A("detecting", "Detecting location…", "Определяем местоположение…", "Détection de la position…", "Locatie bepalen…", "Standort wird ermittelt…", "Визначаємо місцезнаходження…", "Detectando ubicación…");
-            A("detect_fail", "Couldn't detect location", "Не удалось определить место", "Détection impossible", "Locatie niet gevonden", "Standort nicht ermittelt", "Не вдалося визначити місце", "No se pudo detectar la ubicación");
-            A("refresh_tip", "Detect location again", "Определить местоположение заново", "Redétecter la position", "Locatie opnieuw bepalen", "Standort neu ermitteln", "Визначити місцезнаходження знову", "Detectar la ubicación de nuevo");
-            A("loc_tip", "Click to enter coordinates", "Нажмите, чтобы ввести координаты", "Cliquez pour saisir les coordonnées", "Klik om coördinaten in te voeren", "Klicken, um Koordinaten einzugeben", "Натисніть, щоб ввести координати", "Haga clic para introducir coordenadas");
-            A("coords", "Coordinates", "Координаты", "Coordonnées", "Coördinaten", "Koordinaten", "Координати", "Coordenadas");
-            A("lat", "Lat", "Шир.", "Lat", "Br.", "Br.", "Шир.", "Lat");
-            A("lon", "Lon", "Дол.", "Lon", "Le.", "Lä.", "Довг.", "Lon");
-            A("save", "Save", "Сохранить", "Enregistrer", "Opslaan", "Speichern", "Зберегти", "Guardar");
-            A("cancel", "Cancel", "Отмена", "Annuler", "Annuleren", "Abbrechen", "Скасувати", "Cancelar");
-            A("opt_system", "Taskbar and Start", "Панель задач и Пуск", "Barre des tâches et Démarrer", "Taakbalk en Start", "Taskleiste und Start", "Панель завдань і Пуск", "Barra de tareas e Inicio");
-            A("opt_apps", "Apps", "Приложения", "Applications", "Apps", "Apps", "Програми", "Aplicaciones");
-            A("opt_startup", "Start with Windows", "Запуск с Windows", "Démarrer avec Windows", "Starten met Windows", "Mit Windows starten", "Запуск із Windows", "Iniciar con Windows");
-            A("opt_tray", "Minimize to tray", "Сворачивать в трей", "Réduire dans la zone de notification", "Minimaliseren naar systeemvak", "In den Infobereich minimieren", "Згортати в трей", "Minimizar a la bandeja");
-            A("about", "About", "О программе", "À propos", "Over", "Info", "Про програму", "Acerca de");
-            A("about_desc", "Switches Windows between light and dark theme by time or by your location.", "Переключает тему Windows (светлая или тёмная) по времени или местоположению.", "Bascule Windows entre le thème clair et sombre selon l’heure ou votre position.", "Schakelt Windows tussen licht en donker thema op basis van tijd of locatie.", "Wechselt Windows nach Uhrzeit oder Standort zwischen hellem und dunklem Design.", "Перемикає тему Windows (світла чи темна) за часом або місцезнаходженням.", "Cambia Windows entre el tema claro y el oscuro según la hora o su ubicación.");
-            A("version", "Version", "Версия", "Version", "Versie", "Version", "Версія", "Versión");
-            A("close", "Close", "Закрыть", "Fermer", "Sluiten", "Schließen", "Закрити", "Cerrar");
-            A("minimize", "Minimize", "Свернуть", "Réduire", "Minimaliseren", "Minimieren", "Згорнути", "Minimizar");
-            A("tray_open", "Open", "Открыть", "Ouvrir", "Openen", "Öffnen", "Відкрити", "Abrir");
-            A("tray_exit", "Exit", "Выход", "Quitter", "Afsluiten", "Beenden", "Вийти", "Salir");
-            A("tray_hint", "Still running in the tray", "Программа работает в трее", "Toujours actif dans la zone de notification", "Draait nog in het systeemvak", "Läuft weiter im Infobereich", "Програма працює в треї", "Sigue funcionando en la bandeja");
-            A("check_updates", "Check for updates", "Проверить обновления", "Mises à jour", "Updates zoeken", "Nach Updates suchen", "Перевірити оновлення", "Buscar actualizaciones");
-            A("checking", "Checking…", "Проверка…", "Vérification…", "Controleren…", "Wird geprüft…", "Перевірка…", "Comprobando…");
-            A("up_to_date", "Latest version", "Последняя версия", "Dernière version", "Nieuwste versie", "Aktuelle Version", "Остання версія", "Última versión");
-            A("update_avail", "Version {0} available", "Доступна версия {0}", "Version {0} disponible", "Versie {0} beschikbaar", "Version {0} verfügbar", "Доступна версія {0}", "Versión {0} disponible");
-            A("update_now", "Update", "Обновить", "Mettre à jour", "Bijwerken", "Aktualisieren", "Оновити", "Actualizar");
-            A("downloading", "Downloading…", "Загрузка…", "Téléchargement…", "Downloaden…", "Wird geladen…", "Завантаження…", "Descargando…");
-            A("update_fail", "Couldn't check", "Не удалось проверить", "Vérification impossible", "Controle mislukt", "Prüfung fehlgeschlagen", "Не вдалося перевірити", "No se pudo comprobar");
+                         "Der Windows-Standortdienst ist aus oder nicht verfügbar.\n\nAktivieren Sie ihn in den Windows-Einstellungen (Datenschutz und Sicherheit → Standort) oder suchen Sie Ihre Stadt nach Namen.", "Служба визначення місцезнаходження Windows вимкнена або недоступна.\n\nУвімкніть її в налаштуваннях Windows (Конфіденційність і захист → Розташування) або знайдіть місто за назвою.", "El servicio de ubicación de Windows está desactivado o no está disponible.\n\nActívelo en la configuración de Windows (Privacidad y seguridad → Ubicación) o busque su ciudad por nombre.", "Il servizio di localizzazione di Windows è disattivato o non disponibile.\n\nAttivalo nelle impostazioni di Windows (Privacy e sicurezza → Posizione) oppure cerca la tua città per nome.", "O serviço de localização do Windows está desativado ou indisponível.\n\nAtive-o nas configurações do Windows (Privacidade e segurança → Localização) ou procure sua cidade pelo nome.", "Usługa lokalizacji systemu Windows jest wyłączona lub niedostępna.\n\nWłącz ją w ustawieniach systemu Windows (Prywatność i zabezpieczenia → Lokalizacja) albo wyszukaj miasto po nazwie.", "Windows konum hizmeti kapalı veya kullanılamıyor.\n\nWindows ayarlarından açın (Gizlilik ve güvenlik → Konum) ya da şehrinizi adıyla arayın.");
+            A("find_city", "Find city", "Найти город", "Chercher la ville", "Stad zoeken", "Stadt suchen", "Знайти місто", "Buscar ciudad", "Cerca città", "Buscar cidade", "Znajdź miasto", "Şehir ara");
+            A("geo_settings", "Location settings", "Настройки Windows", "Paramètres", "Instellingen", "Einstellungen", "Налаштування Windows", "Configuración", "Impostazioni", "Configurações", "Ustawienia", "Ayarlar");
+            A("city", "City", "Город", "Ville", "Stad", "Stadt", "Місто", "Ciudad", "Città", "Cidade", "Miasto", "Şehir");
+            A("find", "Search", "Найти", "Chercher", "Zoeken", "Suchen", "Знайти", "Buscar", "Cerca", "Buscar", "Szukaj", "Ara");
+            A("searching", "Searching…", "Ищем…", "Recherche…", "Zoeken…", "Suche…", "Шукаємо…", "Buscando…", "Ricerca…", "Buscando…", "Szukanie…", "Aranıyor…");
+            A("not_found", "Nothing found", "Ничего не найдено", "Aucun résultat", "Niets gevonden", "Nichts gefunden", "Нічого не знайдено", "No se encontró nada", "Nessun risultato", "Nada encontrado", "Nic nie znaleziono", "Sonuç bulunamadı");
+            A("search_fail", "Search service is not reachable", "Сервис поиска недоступен", "Service de recherche injoignable", "Zoekdienst niet bereikbaar", "Suchdienst nicht erreichbar", "Сервіс пошуку недоступний", "El servicio de búsqueda no responde", "Servizio di ricerca non raggiungibile", "Serviço de busca indisponível", "Usługa wyszukiwania niedostępna", "Arama hizmetine ulaşılamıyor");
+            A("search_hint", "Type a city and press Enter", "Введите город и нажмите Enter", "Saisissez une ville puis Entrée", "Typ een stad en druk op Enter", "Stadt eingeben und Enter drücken", "Введіть місто й натисніть Enter", "Escriba una ciudad y pulse Enter", "Digita una città e premi Invio", "Digite uma cidade e pressione Enter", "Wpisz miasto i naciśnij Enter", "Bir şehir yazıp Enter'a basın");
+            A("or_coords", "or enter coordinates", "или введите координаты", "ou saisissez des coordonnées", "of voer coördinaten in", "oder Koordinaten eingeben", "або введіть координати", "o introduzca coordenadas", "oppure inserisci le coordinate", "ou insira as coordenadas", "lub wpisz współrzędne", "veya koordinatları girin");
+            A("custom_loc", "Custom location", "Свои координаты", "Position personnalisée", "Eigen locatie", "Eigener Standort", "Власні координати", "Ubicación personalizada", "Posizione personalizzata", "Local personalizado", "Własne współrzędne", "Özel konum");
+            A("detecting", "Detecting location…", "Определяем местоположение…", "Détection de la position…", "Locatie bepalen…", "Standort wird ermittelt…", "Визначаємо місцезнаходження…", "Detectando ubicación…", "Rilevamento posizione…", "Detectando localização…", "Ustalanie lokalizacji…", "Konum belirleniyor…");
+            A("detect_fail", "Couldn't detect location", "Не удалось определить место", "Détection impossible", "Locatie niet gevonden", "Standort nicht ermittelt", "Не вдалося визначити місце", "No se pudo detectar la ubicación", "Impossibile rilevare la posizione", "Não foi possível detectar a localização", "Nie udało się ustalić lokalizacji", "Konum belirlenemedi");
+            A("refresh_tip", "Detect location again", "Определить местоположение заново", "Redétecter la position", "Locatie opnieuw bepalen", "Standort neu ermitteln", "Визначити місцезнаходження знову", "Detectar la ubicación de nuevo", "Rileva di nuovo la posizione", "Detectar a localização novamente", "Ustal lokalizację ponownie", "Konumu yeniden belirle");
+            A("loc_tip", "Click to enter coordinates", "Нажмите, чтобы ввести координаты", "Cliquez pour saisir les coordonnées", "Klik om coördinaten in te voeren", "Klicken, um Koordinaten einzugeben", "Натисніть, щоб ввести координати", "Haga clic para introducir coordenadas", "Fai clic per inserire le coordinate", "Clique para inserir as coordenadas", "Kliknij, aby wpisać współrzędne", "Koordinat girmek için tıklayın");
+            A("coords", "Coordinates", "Координаты", "Coordonnées", "Coördinaten", "Koordinaten", "Координати", "Coordenadas", "Coordinate", "Coordenadas", "Współrzędne", "Koordinatlar");
+            A("lat", "Lat", "Шир.", "Lat", "Br.", "Br.", "Шир.", "Lat", "Lat", "Lat", "Szer.", "Enl.");
+            A("lon", "Lon", "Дол.", "Lon", "Le.", "Lä.", "Довг.", "Lon", "Lon", "Lon", "Dł.", "Boy.");
+            A("save", "Save", "Сохранить", "Enregistrer", "Opslaan", "Speichern", "Зберегти", "Guardar", "Salva", "Salvar", "Zapisz", "Kaydet");
+            A("cancel", "Cancel", "Отмена", "Annuler", "Annuleren", "Abbrechen", "Скасувати", "Cancelar", "Annulla", "Cancelar", "Anuluj", "İptal");
+            A("opt_system", "Taskbar and Start", "Панель задач и Пуск", "Barre des tâches et Démarrer", "Taakbalk en Start", "Taskleiste und Start", "Панель завдань і Пуск", "Barra de tareas e Inicio", "Barra delle applicazioni e Start", "Barra de tarefas e Iniciar", "Pasek zadań i Start", "Görev çubuğu ve Başlat");
+            A("opt_apps", "Apps", "Приложения", "Applications", "Apps", "Apps", "Програми", "Aplicaciones", "App", "Aplicativos", "Aplikacje", "Uygulamalar");
+            A("opt_startup", "Start with Windows", "Запуск с Windows", "Démarrer avec Windows", "Starten met Windows", "Mit Windows starten", "Запуск із Windows", "Iniciar con Windows", "Avvia con Windows", "Iniciar com o Windows", "Uruchamiaj z systemem Windows", "Windows ile başlat");
+            A("opt_tray", "Minimize to tray", "Сворачивать в трей", "Réduire dans la zone de notification", "Minimaliseren naar systeemvak", "In den Infobereich minimieren", "Згортати в трей", "Minimizar a la bandeja", "Riduci nell'area di notifica", "Minimizar para a bandeja", "Minimalizuj do zasobnika", "Sistem tepsisine küçült");
+            A("about", "About", "О программе", "À propos", "Over", "Info", "Про програму", "Acerca de", "Informazioni", "Sobre", "O programie", "Hakkında");
+            A("about_desc", "Switches Windows between light and dark theme by time or by your location.", "Переключает тему Windows (светлая или тёмная) по времени или местоположению.", "Bascule Windows entre le thème clair et sombre selon l’heure ou votre position.", "Schakelt Windows tussen licht en donker thema op basis van tijd of locatie.", "Wechselt Windows nach Uhrzeit oder Standort zwischen hellem und dunklem Design.", "Перемикає тему Windows (світла чи темна) за часом або місцезнаходженням.", "Cambia Windows entre el tema claro y el oscuro según la hora o su ubicación.", "Cambia il tema di Windows tra chiaro e scuro in base all'ora o alla tua posizione.", "Alterna o Windows entre o tema claro e o escuro de acordo com o horário ou sua localização.", "Przełącza Windows między jasnym a ciemnym motywem według godziny lub lokalizacji.", "Windows'u saate veya konumunuza göre açık ve koyu tema arasında değiştirir.");
+            A("version", "Version", "Версия", "Version", "Versie", "Version", "Версія", "Versión", "Versione", "Versão", "Wersja", "Sürüm");
+            A("close", "Close", "Закрыть", "Fermer", "Sluiten", "Schließen", "Закрити", "Cerrar", "Chiudi", "Fechar", "Zamknij", "Kapat");
+            A("minimize", "Minimize", "Свернуть", "Réduire", "Minimaliseren", "Minimieren", "Згорнути", "Minimizar", "Riduci a icona", "Minimizar", "Minimalizuj", "Simge durumuna küçült");
+            A("tray_open", "Open", "Открыть", "Ouvrir", "Openen", "Öffnen", "Відкрити", "Abrir", "Apri", "Abrir", "Otwórz", "Aç");
+            A("tray_exit", "Exit", "Выход", "Quitter", "Afsluiten", "Beenden", "Вийти", "Salir", "Esci", "Sair", "Zakończ", "Çıkış");
+            A("tray_hint", "Still running in the tray", "Программа работает в трее", "Toujours actif dans la zone de notification", "Draait nog in het systeemvak", "Läuft weiter im Infobereich", "Програма працює в треї", "Sigue funcionando en la bandeja", "Ancora attivo nell'area di notifica", "Continua em execução na bandeja", "Nadal działa w zasobniku", "Sistem tepsisinde çalışmaya devam ediyor");
+            A("check_updates", "Check for updates", "Проверить обновления", "Mises à jour", "Updates zoeken", "Nach Updates suchen", "Перевірити оновлення", "Buscar actualizaciones", "Verifica aggiornamenti", "Verificar atualizações", "Sprawdź aktualizacje", "Güncellemeleri denetle");
+            A("checking", "Checking…", "Проверка…", "Vérification…", "Controleren…", "Wird geprüft…", "Перевірка…", "Comprobando…", "Verifica…", "Verificando…", "Sprawdzanie…", "Denetleniyor…");
+            A("up_to_date", "Latest version", "Последняя версия", "Dernière version", "Nieuwste versie", "Aktuelle Version", "Остання версія", "Última versión", "Ultima versione", "Versão mais recente", "Najnowsza wersja", "En son sürüm");
+            A("update_avail", "Version {0} available", "Доступна версия {0}", "Version {0} disponible", "Versie {0} beschikbaar", "Version {0} verfügbar", "Доступна версія {0}", "Versión {0} disponible", "Versione {0} disponibile", "Versão {0} disponível", "Dostępna wersja {0}", "Sürüm {0} mevcut");
+            A("update_now", "Update", "Обновить", "Mettre à jour", "Bijwerken", "Aktualisieren", "Оновити", "Actualizar", "Aggiorna", "Atualizar", "Aktualizuj", "Güncelle");
+            A("downloading", "Downloading…", "Загрузка…", "Téléchargement…", "Downloaden…", "Wird geladen…", "Завантаження…", "Descargando…", "Download…", "Baixando…", "Pobieranie…", "İndiriliyor…");
+            A("update_fail", "Couldn't check", "Не удалось проверить", "Vérification impossible", "Controle mislukt", "Prüfung fehlgeschlagen", "Не вдалося перевірити", "No se pudo comprobar", "Verifica non riuscita", "Falha na verificação", "Nie udało się sprawdzić", "Denetlenemedi");
         }
 
         public static string T(string k)
@@ -146,6 +146,10 @@ namespace AutoDarkMode
                 case "de": return 4;
                 case "uk": return 5;
                 case "es": return 6;
+                case "it": return 7;
+                case "pt": return 8;
+                case "pl": return 9;
+                case "tr": return 10;
             }
             return 0;
         }
