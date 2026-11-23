@@ -56,6 +56,9 @@ namespace AutoDarkMode
         public static int Lang;
         public static readonly string[] Codes = { "EN", "RU", "FR", "NL", "DE", "UA", "ES", "IT", "PT", "PL", "TR" };
         public static readonly string[] Iso = { "en", "ru", "fr", "nl", "de", "uk", "es", "it", "pt", "pl", "tr" };   // for web services
+        // menu order: by number of native speakers (Ethnologue): ES, EN, PT, RU, TR, FR, DE, IT, PL, UK, NL.
+        // The indices above stay as they are, so saved settings keep their language.
+        public static readonly int[] MenuOrder = { 6, 0, 8, 1, 10, 2, 4, 7, 9, 5, 3 };
         public static readonly string[] Names = { "English", "Русский", "Français", "Nederlands", "Deutsch", "Українська", "Español", "Italiano", "Português", "Polski", "Türkçe" };
         static Dictionary<string, string[]> D = new Dictionary<string, string[]>();
         static void A(string k, params string[] v) { D[k] = v; }

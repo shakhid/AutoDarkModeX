@@ -17,7 +17,7 @@ Automatically switches Windows between light and dark theme — by sunrise and s
 - **Runs in the background:** starts with Windows, optional tray icon. The theme also switches while the window is hidden, after waking from sleep and after unlocking; if the taskbar gets stuck in the old theme, the app makes it repaint.
 - **Windows 11 look:** rounded corners, Mica background, your Windows accent colour, smooth minimize.
 - **Update check:** About → Check for updates looks for a newer release here on GitHub and can download and install it.
-- **Languages:** English, Русский, Українська, Español, Français, Nederlands, Deutsch, Italiano, Português, Polski, Türkçe.
+- **Languages:** Español, English, Português, Русский, Türkçe, Français, Deutsch, Italiano, Polski, Українська, Nederlands.
 
 ## Installation
 

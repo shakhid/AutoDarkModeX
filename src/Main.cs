@@ -312,7 +312,7 @@ namespace AutoDarkMode
             // language menu
             langMenu = new ContextMenuStrip { ShowImageMargin = false, ShowCheckMargin = true };
             langMenu.Font = Fnt(9.5f, false);
-            for (int i = 0; i < L.Codes.Length; i++)
+            foreach (int i in L.MenuOrder)
             {
                 int idx = i;
                 miLang[i] = new ToolStripMenuItem(L.Names[i]);
