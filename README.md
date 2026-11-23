@@ -2,8 +2,6 @@
 
 Automatically switches Windows between light and dark theme — by sunrise and sunset at your location, or at times you choose.
 
-### ⬇️ [Download the latest version](https://github.com/shakhid/AutoDarkModeX/releases/latest)
-
 <p align="center">
   <img src="assets/screenshot-light.png" width="380" alt="AutoDarkModeX — light theme">
   <img src="assets/screenshot-dark.png" width="380" alt="AutoDarkModeX — dark theme">
@@ -22,6 +20,8 @@ Automatically switches Windows between light and dark theme — by sunrise and s
 - **Languages:** Español, English, Português, Русский, Türkçe, Français, Deutsch, Italiano, Polski, Українська, Nederlands.
 
 ## Installation
+
+### ⬇️ [Download the latest version](https://github.com/shakhid/AutoDarkModeX/releases/latest)
 
 Download `AutoDarkModeX-Setup-<version>.exe` from [Releases](../../releases) and run it.
 The app installs to `C:\Program Files\AutoDarkModeX` (you can choose another folder). Settings are stored in `%APPDATA%\AutoDarkModeX`.
