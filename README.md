@@ -2,6 +2,8 @@
 
 Automatically switches Windows between light and dark theme — by sunrise and sunset at your location, or at times you choose.
 
+### ⬇️ [Download the latest version](https://github.com/shakhid/AutoDarkModeX/releases/latest)
+
 <p align="center">
   <img src="assets/screenshot-light.png" width="380" alt="AutoDarkModeX — light theme">
   <img src="assets/screenshot-dark.png" width="380" alt="AutoDarkModeX — dark theme">
