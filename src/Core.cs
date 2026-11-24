@@ -124,6 +124,14 @@ namespace AutoDarkMode
             A("update_now", "Update", "Обновить", "Mettre à jour", "Bijwerken", "Aktualisieren", "Оновити", "Actualizar", "Aggiorna", "Atualizar", "Aktualizuj", "Güncelle");
             A("downloading", "Downloading…", "Загрузка…", "Téléchargement…", "Downloaden…", "Wird geladen…", "Завантаження…", "Descargando…", "Download…", "Baixando…", "Pobieranie…", "İndiriliyor…");
             A("update_fail", "Couldn't check", "Не удалось проверить", "Vérification impossible", "Controle mislukt", "Prüfung fehlgeschlagen", "Не вдалося перевірити", "No se pudo comprobar", "Verifica non riuscita", "Falha na verificação", "Nie udało się sprawdzić", "Denetlenemedi");
+            A("wall", "Desktop wallpaper", "Обои рабочего стола", "Fond d'écran", "Bureaubladachtergrond", "Hintergrundbild", "Шпалери робочого столу", "Fondo de escritorio", "Sfondo del desktop", "Papel de parede", "Tapeta pulpitu", "Masaüstü arka planı");
+            A("wall_for_light", "Wallpaper for light theme", "Обои для светлой темы", "Fond d'écran du thème clair", "Achtergrond voor licht thema", "Hintergrund für helles Design", "Шпалери для світлої теми", "Fondo para el tema claro", "Sfondo per il tema chiaro", "Papel de parede do tema claro", "Tapeta dla jasnego motywu", "Açık tema arka planı");
+            A("wall_for_dark", "Wallpaper for dark theme", "Обои для тёмной темы", "Fond d'écran du thème sombre", "Achtergrond voor donker thema", "Hintergrund für dunkles Design", "Шпалери для темної теми", "Fondo para el tema oscuro", "Sfondo per il tema scuro", "Papel de parede do tema escuro", "Tapeta dla ciemnego motywu", "Koyu tema arka planı");
+            A("recent", "Recent images", "Недавние изображения", "Images récentes", "Recente afbeeldingen", "Zuletzt verwendete Bilder", "Нещодавні зображення", "Imágenes recientes", "Immagini recenti", "Imagens recentes", "Ostatnie obrazy", "Son resimler");
+            A("no_recent", "No recent images", "Недавних изображений нет", "Aucune image récente", "Geen recente afbeeldingen", "Keine zuletzt verwendeten Bilder", "Нещодавніх зображень немає", "No hay imágenes recientes", "Nessuna immagine recente", "Nenhuma imagem recente", "Brak ostatnich obrazów", "Son resim yok");
+            A("browse", "Browse…", "Обзор…", "Parcourir…", "Bladeren…", "Durchsuchen…", "Огляд…", "Examinar…", "Sfoglia…", "Procurar…", "Przeglądaj…", "Gözat…");
+            A("wall_tip", "Click to choose a photo", "Нажмите, чтобы выбрать фото", "Cliquez pour choisir une photo", "Klik om een foto te kiezen", "Klicken, um ein Foto zu wählen", "Натисніть, щоб вибрати фото", "Haga clic para elegir una foto", "Fai clic per scegliere una foto", "Clique para escolher uma foto", "Kliknij, aby wybrać zdjęcie", "Fotoğraf seçmek için tıklayın");
+            A("images", "Images", "Изображения", "Images", "Afbeeldingen", "Bilder", "Зображення", "Imágenes", "Immagini", "Imagens", "Obrazy", "Resimler");
         }
 
         public static string T(string k)
@@ -169,6 +177,8 @@ namespace AutoDarkMode
         public int LocSrc;   // 0 = coordinates by hand, 1 = Windows location, 2 = IP address (older versions), 3 = city search
         public int WinX = int.MinValue, WinY = int.MinValue;
         public bool Mica = true;
+        public bool Wall;                       // wallpaper per theme (off by default)
+        public string WallLight = "", WallDark = "";
         public bool LocSet;
         public int LH = 7, LM = 0, DH = 19, DM = 0;
         public bool SysTheme = true, AppTheme = true, Startup, Tray = true;
@@ -216,6 +226,9 @@ namespace AutoDarkMode
                         case "winx": if (int.TryParse(v, out n)) s.WinX = n; break;
                         case "winy": if (int.TryParse(v, out n)) s.WinY = n; break;
                         case "mica": s.Mica = v != "0"; break;
+                        case "wall": s.Wall = v == "1"; break;
+                        case "walllight": s.WallLight = v; break;
+                        case "walldark": s.WallDark = v; break;
                     }
                 }
             }
@@ -244,6 +257,9 @@ namespace AutoDarkMode
                 sb.AppendLine("tray=" + (Tray ? 1 : 0));
                 if (WinX != int.MinValue) { sb.AppendLine("winx=" + WinX); sb.AppendLine("winy=" + WinY); }
                 sb.AppendLine("mica=" + (Mica ? 1 : 0));
+                sb.AppendLine("wall=" + (Wall ? 1 : 0));
+                sb.AppendLine("walllight=" + WallLight);
+                sb.AppendLine("walldark=" + WallDark);
                 File.WriteAllText(FilePath(), sb.ToString(), Encoding.UTF8);
             }
             catch { }

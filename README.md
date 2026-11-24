@@ -14,6 +14,7 @@ Automatically switches Windows between light and dark theme — by sunrise and s
 - **Schedule by time:** two times of your own for the light and the dark theme.
 - **Location:** from the Windows location service or by searching a city by name; coordinates can also be entered by hand.
 - **Separate switches** for the taskbar and Start menu and for apps.
+- **Desktop wallpaper per theme** (optional, off by default): one photo for the light theme and one for the dark theme; starts with your current wallpaper and offers your recent Windows wallpapers.
 - **Runs in the background:** starts with Windows, optional tray icon. The theme also switches while the window is hidden, after waking from sleep and after unlocking; if the taskbar gets stuck in the old theme, the app makes it repaint.
 - **Windows 11 look:** rounded corners, Mica background, your Windows accent colour, smooth minimize.
 - **Update check:** About → Check for updates looks for a newer release here on GitHub and can download and install it.
@@ -46,6 +47,7 @@ This produces `AutoDarkModeX.exe` and the installer `AutoDarkModeX-Setup-<versio
 | `src/Controls.cs` | UI controls and colour palette |
 | `src/Core.cs` | settings, translations, location |
 | `src/Sun.cs` | sunrise and sunset calculation |
+| `src/Wallpaper.cs` | wallpaper per theme |
 | `src/About.cs` | About window |
 | `installer.nsi` | installer (NSIS) |
 | `assets/` | icon and screenshots |

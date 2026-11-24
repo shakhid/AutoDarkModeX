@@ -15,6 +15,6 @@ REF=/usr/lib/mono/4.8-api
 mcs -target:winexe -out:AutoDarkModeX.exe -codepage:utf8 -win32icon:assets/app.ico -resource:assets/icon_256.png,icon.png -optimize+ \
   -nostdlib -noconfig -lib:$REF -lib:$REF/Facades -r:mscorlib.dll -r:System.dll -r:System.Core.dll \
   -r:System.Windows.Forms.dll -r:System.Drawing.dll -r:System.Web.Extensions.dll \
-  src/Version.cs src/Sun.cs src/Core.cs src/Controls.cs src/Main.cs src/About.cs src/AssemblyInfo.cs
+  src/Version.cs src/Sun.cs src/Core.cs src/Controls.cs src/Main.cs src/Wallpaper.cs src/About.cs src/AssemblyInfo.cs
 makensis -DAPPVER="$VER" -DAPPVER4="$VER4" installer.nsi
 echo "Built AutoDarkModeX-Setup-$VER.exe"

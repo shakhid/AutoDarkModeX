@@ -24,7 +24,9 @@ namespace AutoDarkMode
         const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
         const string AppName = "AutoDarkModeX";
         const int TitleH = 40;
-        const int WinW = 400, WinH = 482;   // window size (96 dpi units)
+        const int WinW = 400;                       // window width (96 dpi units)
+        const int HeightWallOff = 534, HeightWallOn = 644;
+        int WinH = HeightWallOff;
 
         public const string Copyright = "Copyright (c) 2026 Created by Shax";
         public const string VersionText = AppVersion.Text;
@@ -39,7 +41,10 @@ namespace AutoDarkMode
         CapBtn btnMin, btnClose;
         Card statusCard, schedCard, optCard;
         ThemeIcon icon;
-        Lbl lblState, lblNext, lnkAbout;
+        Lbl lblState, lblNext, lnkAbout, wallLbl;
+        Card wallCard;
+        Toggle wallTg;
+        WallThumb thLight, thDark;
         Btn btnLang, btnRefresh;
         Segmented theme, sched;
         LocRow loc;
@@ -304,6 +309,16 @@ namespace AutoDarkMode
                 optTg[i].Changed += delegate { OptionChanged(idx); };
             }
 
+            // ---- wallpaper card (off by default; the photos show only when it is on) ----
+            wallCard = Add(this, new Card(), 12, 456, 376, 44);
+            wallLbl = MakeLbl(wallCard, 14, 8, 280, 26, 9f, false, false);
+            wallTg = Add(wallCard, new Toggle(), 322, 11, 40, 21);
+            wallTg.Changed += delegate { WallToggled(); };
+            thLight = Add(wallCard, new WallThumb { Light = true }, 14, 44, 169, 95);
+            thDark = Add(wallCard, new WallThumb { Light = false }, 193, 44, 169, 95);
+            thLight.Click += delegate { PickWallpaper(true); };
+            thDark.Click += delegate { PickWallpaper(false); };
+
             // ---- footer ----
             lnkAbout = MakeLbl(this, 200, 454, 188, 20, 8.5f, false, false);
             lnkAbout.Link = true; lnkAbout.RightAlign = true; lnkAbout.Cursor = Cursors.Hand;
@@ -360,7 +375,9 @@ namespace AutoDarkMode
             tDark.Hour = S.DH; tDark.Minute = S.DM;
             optTg[0].Checked = S.SysTheme; optTg[1].Checked = S.AppTheme;
             optTg[2].Checked = S.Startup; optTg[3].Checked = S.Tray;
+            wallTg.Checked = S.Wall;
             ShowMode();
+            ShowWallUI();
             loading = false;
         }
 
@@ -380,6 +397,10 @@ namespace AutoDarkMode
             miDark.Text = L.T("dark"); miExit.Text = L.T("tray_exit");
             tips.SetToolTip(btnRefresh, L.T("refresh_tip"));
             tips.SetToolTip(btnMin, L.T("minimize"));
+            wallLbl.Text = L.T("wall");
+            thLight.Caption = L.T("light"); thDark.Caption = L.T("dark");
+            thLight.Invalidate(); thDark.Invalidate();
+            tips.SetToolTip(thLight, L.T("wall_tip")); tips.SetToolTip(thDark, L.T("wall_tip"));
             tips.SetToolTip(btnClose, L.T("close"));
             UpdateStatus(Compute(DateTime.Now));
             Invalidate(new Rectangle(0, 0, ClientSize.Width, P(TitleH)));
@@ -652,6 +673,7 @@ namespace AutoDarkMode
                 {
                     lastDesired = desired;
                     WriteTheme(desired);
+                    if (S.Wall) Wallpaper.Apply(desired ? S.WallLight : S.WallDark);
                     if (changed && !force) ReapplyLater(5000, 30000);
                 }
                 return p;
@@ -791,6 +813,60 @@ namespace AutoDarkMode
         }
 
         // ---------- Options & location ----------
+        // ---- wallpaper ----
+        void ShowWallUI()
+        {
+            bool on = S.Wall;
+            wallCard.Height = P(on ? 152 : 44);
+            thLight.Visible = thDark.Visible = on;
+            WinH = on ? HeightWallOn : HeightWallOff;
+            lnkAbout.Top = P(WinH - 28);
+            if (IsHandleCreated) FitWindow(); else ClientSize = new Size(P(WinW), P(WinH));
+            if (on) { thLight.SetImage(S.WallLight); thDark.SetImage(S.WallDark); }
+        }
+
+        void WallToggled()
+        {
+            if (loading) return;
+            S.Wall = wallTg.Checked;
+            if (S.Wall)
+            {
+                // first time: start with the wallpaper Windows shows now, for both themes
+                string cur = null;
+                if (S.WallLight.Length == 0 || !System.IO.File.Exists(S.WallLight) || S.WallDark.Length == 0 || !System.IO.File.Exists(S.WallDark))
+                    cur = Wallpaper.Current();
+                try
+                {
+                    if (cur != null && (S.WallLight.Length == 0 || !System.IO.File.Exists(S.WallLight))) S.WallLight = Wallpaper.Store(cur, true, S.WallLight);
+                    if (cur != null && (S.WallDark.Length == 0 || !System.IO.File.Exists(S.WallDark))) S.WallDark = Wallpaper.Store(cur, false, S.WallDark);
+                }
+                catch { }
+            }
+            S.Save();
+            ShowWallUI();
+            if (S.Wall && lastDesired.HasValue) Wallpaper.Apply(lastDesired.Value ? S.WallLight : S.WallDark);
+        }
+
+        void PickWallpaper(bool light)
+        {
+            string picked;
+            using (var f = new WallPickForm(light))
+            {
+                if (f.ShowDialog(this) != DialogResult.OK || string.IsNullOrEmpty(f.Picked)) return;
+                picked = f.Picked;
+            }
+            try
+            {
+                if (light) S.WallLight = Wallpaper.Store(picked, true, S.WallLight);
+                else S.WallDark = Wallpaper.Store(picked, false, S.WallDark);
+            }
+            catch { return; }
+            S.Save();
+            (light ? thLight : thDark).SetImage(light ? S.WallLight : S.WallDark);
+            // the photo for the theme that is on now is shown right away
+            if (S.Wall && lastDesired.HasValue && lastDesired.Value == light) Wallpaper.Apply(light ? S.WallLight : S.WallDark);
+        }
+
         void OptionChanged(int i)
         {
             if (loading) return;
