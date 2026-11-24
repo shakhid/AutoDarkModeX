@@ -671,10 +671,14 @@ namespace AutoDarkMode
                 bool changed = !lastDesired.HasValue || lastDesired.Value != desired;
                 if (force || changed || !Matches(desired))
                 {
+                    bool wasOk = Matches(desired);
                     lastDesired = desired;
-                    WriteTheme(desired);
+                    // wallpaper first: setting it makes Explorer refresh the desktop and the taskbar, and if that
+                    // happens right after the theme notice the taskbar can keep the old colours
                     if (S.Wall) Wallpaper.Apply(desired ? S.WallLight : S.WallDark);
+                    WriteTheme(desired);
                     if (changed && !force) ReapplyLater(5000, 30000);
+                    else if (changed || !wasOk) CheckTaskbarLater(2500, 7000, 15000);
                 }
                 return p;
             }
@@ -713,6 +717,22 @@ namespace AutoDarkMode
             }
         }
 
+        // Only looks at the taskbar (and repaints it if needed) after the given delays (ms).
+        void CheckTaskbarLater(params int[] delays)
+        {
+            foreach (int ms in delays)
+            {
+                System.Threading.Timer t = null;
+                t = new System.Threading.Timer(delegate
+                {
+                    try { CheckTaskbar(); } catch { }
+                    lock (oneShots) { oneShots.Remove(t); }
+                    t.Dispose();
+                }, null, ms, Timeout.Infinite);
+                lock (oneShots) oneShots.Add(t);
+            }
+        }
+
         // The taskbar (Explorer) sometimes misses the "theme changed" notice, e.g. right after waking from
         // sleep: the setting is dark but the taskbar stays light. If its colour does not match, flip the
         // taskbar setting to the other value and back - that always makes Explorer repaint it.
@@ -724,7 +744,7 @@ namespace AutoDarkMode
             if (!light.HasValue || light.Value == want) return;
             lock (evalLock)
             {
-                SetSystemTheme(!want); Notify(); Thread.Sleep(400);
+                SetSystemTheme(!want); Notify(); Thread.Sleep(700);
                 SetSystemTheme(want); Notify();
             }
         }
@@ -754,7 +774,7 @@ namespace AutoDarkMode
                 int w = r.R - r.L, h = r.B - r.T;
                 if (w <= 0 || h <= 0) return null;
                 var pts = new List<Point>();
-                foreach (double f in new[] { 0.2, 0.27, 0.34, 0.66, 0.73 })
+                foreach (double f in new[] { 0.1, 0.17, 0.24, 0.76, 0.8 })
                     pts.Add(w >= h ? new Point(r.L + (int)(w * f), r.T + Math.Min(4, h / 2)) : new Point(r.L + Math.Min(4, w / 2), r.T + (int)(h * f)));
                 dc = Native.GetDC(IntPtr.Zero);
                 var lum = new List<double>();
@@ -844,7 +864,7 @@ namespace AutoDarkMode
             }
             S.Save();
             ShowWallUI();
-            if (S.Wall && lastDesired.HasValue) Wallpaper.Apply(lastDesired.Value ? S.WallLight : S.WallDark);
+            if (S.Wall && lastDesired.HasValue) { Wallpaper.Apply(lastDesired.Value ? S.WallLight : S.WallDark); CheckTaskbarLater(2500, 7000); }
         }
 
         void PickWallpaper(bool light)
@@ -864,7 +884,7 @@ namespace AutoDarkMode
             S.Save();
             (light ? thLight : thDark).SetImage(light ? S.WallLight : S.WallDark);
             // the photo for the theme that is on now is shown right away
-            if (S.Wall && lastDesired.HasValue && lastDesired.Value == light) Wallpaper.Apply(light ? S.WallLight : S.WallDark);
+            if (S.Wall && lastDesired.HasValue && lastDesired.Value == light) { Wallpaper.Apply(light ? S.WallLight : S.WallDark); CheckTaskbarLater(2500, 7000); }
         }
 
         void OptionChanged(int i)
