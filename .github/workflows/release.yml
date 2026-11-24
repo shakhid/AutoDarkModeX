@@ -1,10 +1,13 @@
-# Builds the installer and publishes a GitHub release when a version tag (e.g. v1.2.4) is pushed.
+# Builds the installer and publishes a GitHub release whenever the VERSION file changes on main
+# (or when started by hand from the Actions tab). Nothing happens if that version is already released.
 # Release text: release-notes/<version>.md (e.g. release-notes/1.2.4.md).
 name: Release
 
 on:
   push:
-    tags: ['v*']
+    branches: [main]
+    paths: [VERSION]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,27 +18,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Read version
+        id: v
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ver=$(tr -d ' \r\n' < VERSION)
+          echo "ver=$ver" >> "$GITHUB_OUTPUT"
+          if gh release view "v$ver" >/dev/null 2>&1; then
+            echo "v$ver is already released - nothing to do"
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install build tools (Mono with .NET Framework 4.8 reference profile, NSIS)
+        if: steps.v.outputs.skip != '1'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends mono-mcs mono-devel \
             libmono-system-windows-forms4.0-cil libmono-system-web-extensions4.0-cil nsis
 
-      - name: Check that VERSION matches the tag
-        run: |
-          v=$(tr -d ' \r\n' < VERSION)
-          t="${GITHUB_REF_NAME#v}"
-          if [ "$v" != "$t" ]; then echo "VERSION file says $v, tag says $t"; exit 1; fi
-
       - name: Build
+        if: steps.v.outputs.skip != '1'
         run: sh build.sh
 
       - name: Publish release
+        if: steps.v.outputs.skip != '1'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          ver="${GITHUB_REF_NAME#v}"
+          ver="${{ steps.v.outputs.ver }}"
           notes="release-notes/$ver.md"
           [ -f "$notes" ] || { echo "AutoDarkModeX $ver" > /tmp/notes.md; notes=/tmp/notes.md; }
-          gh release create "$GITHUB_REF_NAME" "AutoDarkModeX-Setup-$ver.exe" \
+          gh release create "v$ver" "AutoDarkModeX-Setup-$ver.exe" --target "$GITHUB_SHA" \
             --title "AutoDarkModeX $ver" --notes-file "$notes" --latest
