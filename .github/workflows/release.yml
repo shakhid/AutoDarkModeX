@@ -1,0 +1,41 @@
+# Builds the installer and publishes a GitHub release when a version tag (e.g. v1.2.4) is pushed.
+# Release text: release-notes/<version>.md (e.g. release-notes/1.2.4.md).
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools (Mono with .NET Framework 4.8 reference profile, NSIS)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends mono-mcs mono-devel \
+            libmono-system-windows-forms4.0-cil libmono-system-web-extensions4.0-cil nsis
+
+      - name: Check that VERSION matches the tag
+        run: |
+          v=$(tr -d ' \r\n' < VERSION)
+          t="${GITHUB_REF_NAME#v}"
+          if [ "$v" != "$t" ]; then echo "VERSION file says $v, tag says $t"; exit 1; fi
+
+      - name: Build
+        run: sh build.sh
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ver="${GITHUB_REF_NAME#v}"
+          notes="release-notes/$ver.md"
+          [ -f "$notes" ] || { echo "AutoDarkModeX $ver" > /tmp/notes.md; notes=/tmp/notes.md; }
+          gh release create "$GITHUB_REF_NAME" "AutoDarkModeX-Setup-$ver.exe" \
+            --title "AutoDarkModeX $ver" --notes-file "$notes" --latest
